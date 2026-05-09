@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Edit2, Trash2, MoreHorizontal } from 'lucide-react';
+import { GitBranch, ExternalLink, Edit2, Trash2, MoreHorizontal } from 'lucide-react';
 import type { Project } from '../../types';
 import StatusBadge from '../ui/StatusBadge';
 import { truncate } from '../../utils';
@@ -99,7 +99,7 @@ export default function ProjectCard({ project, index = 0, onEdit, onDelete }: Pr
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
         <div style={{ display: 'flex', gap: 8 }}>
-          {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--text-2)', display: 'flex', padding: 4 }}><Github size={16} /></a>}
+          {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--text-2)', display: 'flex', padding: 4 }}><GitBranch size={16} /></a>}
           {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--text-2)', display: 'flex', padding: 4 }}><ExternalLink size={16} /></a>}
         </div>
       </div>

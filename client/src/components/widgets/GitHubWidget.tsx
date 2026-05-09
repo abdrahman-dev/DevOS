@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, BookOpen, Users, Star, ChevronDown } from 'lucide-react';
+import { GitBranch, BookOpen, Users, Star, ChevronDown } from 'lucide-react';
 import type { GitHubWidgetData } from '../../types';
 
 interface Props {

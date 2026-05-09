@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Github, ExternalLink, Edit2 } from 'lucide-react';
+import { ArrowLeft, GitBranch, ExternalLink, Edit2 } from 'lucide-react';
 import { useProjectsStore } from '../store/projectsStore';
 import StatusBadge from '../components/ui/StatusBadge';
 import Modal from '../components/ui/Modal';
@@ -103,7 +103,7 @@ export default function ProjectDetailPage() {
       <div style={{ display: 'flex', gap: 16 }}>
         {project.githubUrl && (
           <a href={project.githubUrl} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 13 }}>
-            <Github size={16} /> GitHub
+            <GitBranch size={16} /> GitHub
           </a>
         )}
         {project.liveUrl && (

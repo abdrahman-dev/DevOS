@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Crosshair, SlidersHorizontal, Github, Clock, Cpu, Server, BookOpen } from 'lucide-react';
+import { Crosshair, SlidersHorizontal, GitBranch, Clock, Cpu, Server, BookOpen } from 'lucide-react';
 import { useSettingsStore } from '../store/settingsStore';
 import { useProjectsStore } from '../store/projectsStore';
 import { useLearningStore } from '../store/learningStore';
@@ -144,7 +144,7 @@ export default function DashboardPage() {
 
   const todayItems: { icon: ReactNode; text: string }[] = [];
   if (data.github) {
-    todayItems.push({ icon: <Github size={12} />, text: `${data.github.publicRepos} repos` });
+    todayItems.push({ icon: <GitBranch size={12} />, text: `${data.github.publicRepos} repos` });
   }
   if (data.wakatime) {
     todayItems.push({ icon: <Clock size={12} />, text: `${data.wakatime.totalCodingTime} coded (7d)` });

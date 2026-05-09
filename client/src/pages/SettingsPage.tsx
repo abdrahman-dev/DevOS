@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Upload, AlertTriangle, CheckCircle, XCircle, ExternalLink, Users, BookOpen, Server, Cpu, Globe, Github, Clock, Zap, Cloud, Database, Terminal } from 'lucide-react';
+import { Download, Upload, AlertTriangle, CheckCircle, XCircle, ExternalLink, Users, BookOpen, Server, Cpu, Globe, GitBranch, Clock, Zap, Cloud, Database, Terminal } from 'lucide-react';
 import { useSettingsStore } from '../store/settingsStore';
 import { useProjectsStore } from '../store/projectsStore';
 import { useLearningStore } from '../store/learningStore';
@@ -561,7 +561,7 @@ export default function SettingsPage() {
           <IntegrationCard
             name="GitHub"
             description="Repositories, activity, and profile"
-            icon={<Github size={20} />}
+            icon={<GitBranch size={20} />}
             connected={!!settings.githubUsername}
             preview={ghInfo ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
