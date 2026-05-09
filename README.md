@@ -1,9 +1,11 @@
+```
 ██████╗ ███████╗██╗   ██╗ ██████╗ ███████╗
 ██╔══██╗██╔════╝██║   ██║██╔═══██╗██╔════╝
 ██║  ██║█████╗  ██║   ██║██║   ██║███████╗
 ██║  ██║██╔══╝  ╚██╗ ██╔╝██║   ██║╚════██║
 ██████╔╝███████╗ ╚████╔╝ ╚██████╔╝███████║
 ╚═════╝ ╚══════╝  ╚═══╝   ╚═════╝ ╚══════╝
+```
 
 **Your personal developer command center — Track projects, monitor integrations, and stay in flow.**
 
@@ -39,20 +41,20 @@ DevOS is a local-first personal dashboard for developers. No backend, no account
 
 ## 📦 Tech Stack
 
-| Tool               | Purpose                                  |
-| ------------------ | ---------------------------------------- |
-| React 19           | UI framework                             |
-| TypeScript 6       | Type safety                              |
-| Vite 8             | Build tool and dev server                |
-| React Router v6    | Client-side routing                      |
-| Zustand            | State management                         |
-| idb                | IndexedDB wrapper for persistent storage |
-| Framer Motion 12   | Declarative animations                   |
-| Lucide React       | Icons                                    |
-| React Hook Form    | Form state management                    |
-| Zod                | Schema validation                        |
-| Plain CSS          | Styling (no Tailwind, no UI libraries)   |
-| Docker / Nginx     | Production deployment                    |
+| Tool             | Purpose                                  |
+| ---------------- | ---------------------------------------- |
+| React 19         | UI framework                             |
+| TypeScript 6     | Type safety                              |
+| Vite 8           | Build tool and dev server                |
+| React Router v6  | Client-side routing                      |
+| Zustand          | State management                         |
+| idb              | IndexedDB wrapper for persistent storage |
+| Framer Motion 12 | Declarative animations                   |
+| Lucide React     | Icons                                    |
+| React Hook Form  | Form state management                    |
+| Zod              | Schema validation                        |
+| Plain CSS        | Styling (no Tailwind, no UI libraries)   |
+| Docker / Nginx   | Production deployment                    |
 
 ---
 
@@ -173,17 +175,17 @@ Three tabs:
 
 All API keys are stored **locally in IndexedDB only**. Never sent to any server other than the respective service's official API.
 
-| Service   | Where to get your key                                                              |
-| --------- | ---------------------------------------------------------------------------------- |
-| GitHub    | No key needed — just your username                                                 |
-| OpenRouter| [openrouter.ai/keys](https://openrouter.ai/keys)                                   |
-| WakaTime  | [wakatime.com/settings/api-key](https://wakatime.com/settings/api-key)             |
-| Vercel    | [vercel.com/account/tokens](https://vercel.com/account/tokens)                     |
-| Railway   | [railway.app/account/tokens](https://railway.app/account/tokens)                   |
-| Render    | [dashboard.render.com/u/settings#api-keys](https://dashboard.render.com/u/settings)|
-| Supabase  | [app.supabase.com/account/tokens](https://app.supabase.com/account/tokens)         |
-| DEV.to    | [dev.to/settings/extensions](https://dev.to/settings/extensions)                   |
-| Ollama    | Run locally at `http://localhost:11434`                                            |
+| Service    | Where to get your key                                                               |
+| ---------- | ----------------------------------------------------------------------------------- |
+| GitHub     | No key needed — just your username                                                  |
+| OpenRouter | [openrouter.ai/keys](https://openrouter.ai/keys)                                    |
+| WakaTime   | [wakatime.com/settings/api-key](https://wakatime.com/settings/api-key)              |
+| Vercel     | [vercel.com/account/tokens](https://vercel.com/account/tokens)                      |
+| Railway    | [railway.app/account/tokens](https://railway.app/account/tokens)                    |
+| Render     | [dashboard.render.com/u/settings#api-keys](https://dashboard.render.com/u/settings) |
+| Supabase   | [app.supabase.com/account/tokens](https://app.supabase.com/account/tokens)          |
+| DEV.to     | [dev.to/settings/extensions](https://dev.to/settings/extensions)                    |
+| Ollama     | Run locally at `http://localhost:11434`                                             |
 
 ---
 
