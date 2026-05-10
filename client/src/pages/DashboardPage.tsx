@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Crosshair, SlidersHorizontal, GitBranch, Clock, Cpu, Server, BookOpen } from 'lucide-react';
 import { useSettingsStore } from '../store/settingsStore';
 import { useProjectsStore } from '../store/projectsStore';
 import { useLearningStore } from '../store/learningStore';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import MotivationalPop from '../components/ui/MotivationalPop';
 import QuickStats from '../features/dashboard/QuickStats';
 import StatusBadge from '../components/ui/StatusBadge';
 import { formatDate } from '../utils';
@@ -48,10 +50,15 @@ const widgetList: { key: string; label: string }[] = [
 ];
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const settings = useSettingsStore((s) => s.settings);
   const { data, loading } = useIntegrationData(settings);
   const { isCollapsed, toggle } = useWidgetCollapse();
   const { isVisible, toggle: toggleVisibility } = useWidgetVisibility();
+
+  useKeyboardShortcuts({
+    onNewProject: () => navigate('/projects'),
+  });
 
   const projects = useProjectsStore((s) => s.projects);
   const learningItems = useLearningStore((s) => s.items);
@@ -156,6 +163,8 @@ export default function DashboardPage() {
     todayItems.push({ icon: <Cpu size={12} />, text: `${data.ollama.models} local models` });
   }
 
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
   return (
     <motion.div
       variants={pageVariants}
@@ -165,13 +174,10 @@ export default function DashboardPage() {
       transition={{ duration: 0.18, ease: 'easeOut' }}
       style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 28, maxWidth: 1000 }}
     >
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-        <div>
-          <h2 style={{ fontSize: 20, marginBottom: 2 }}>Dashboard</h2>
-          <p style={{ fontSize: 12, color: 'var(--text-2)' }}>
-            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
-          </p>
-        </div>
+      {loading && <div className="loading-bar" />}
+
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 0, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
+        <p style={{ fontSize: 13, color: 'var(--text-2)' }}>{today}</p>
         <div style={{ display: 'flex', gap: 8, position: 'relative' }}>
           <button
             onClick={toggleFocus}
@@ -232,15 +238,13 @@ export default function DashboardPage() {
       {focusMode ? (
         <>
           <section>
-            <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 14, color: 'var(--text-2)', letterSpacing: '0.05em' }}>
-              Currently Learning
-            </h3>
+            <h3 className="section-label">Currently Learning</h3>
             {activeLearning.length === 0 ? (
               <p style={{ fontSize: 13, color: 'var(--text-2)' }}>No active learning topics.</p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {activeLearning.map((item) => (
-                  <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius)' }}>
+                  <div key={item.id} className="card-hover" style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius)' }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 14, fontWeight: 600 }}>{item.topic}</div>
                       {item.source && <div style={{ fontSize: 12, color: 'var(--text-2)', marginTop: 2 }}>{item.source}</div>}
@@ -259,18 +263,13 @@ export default function DashboardPage() {
           </section>
 
           <section>
-            <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 14, color: 'var(--text-2)', letterSpacing: '0.05em' }}>
-              Recent Projects
-            </h3>
+            <h3 className="section-label">Recent Projects</h3>
             {recentProjects.length === 0 ? (
               <p style={{ fontSize: 13, color: 'var(--text-2)' }}>No projects yet.</p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {recentProjects.map((p) => (
-                  <Link key={p.id} to={`/projects/${p.id}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 18px', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius)', textDecoration: 'none', color: 'var(--text)', transition: 'border-color 0.2s, box-shadow 0.2s' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
-                  >
+                  <Link key={p.id} to={`/projects/${p.id}`} className="card-hover" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 18px', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius)', textDecoration: 'none', color: 'var(--text)' }}>
                     <span style={{ fontSize: 14, fontWeight: 600 }}>{p.name}</span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <StatusBadge status={p.status} />
@@ -348,6 +347,7 @@ export default function DashboardPage() {
           </section>
         </>
       )}
+      <MotivationalPop />
     </motion.div>
   );
 }

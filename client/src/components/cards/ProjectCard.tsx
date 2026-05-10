@@ -6,10 +6,10 @@ import type { Project } from '../../types';
 import StatusBadge from '../ui/StatusBadge';
 import { truncate } from '../../utils';
 
-const priorityColor: Record<string, string> = {
-  low: 'var(--text-2)',
-  medium: 'var(--warning)',
-  high: 'var(--danger)',
+const priorityConfig: Record<string, { color: string; label: string }> = {
+  low: { color: 'var(--color-neutral)', label: 'Low' },
+  medium: { color: 'var(--warning)', label: 'Medium' },
+  high: { color: 'var(--color-delete)', label: 'High' },
 };
 
 interface Props {
@@ -23,27 +23,25 @@ export default function ProjectCard({ project, index = 0, onEdit, onDelete }: Pr
   const [confirming, setConfirming] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const tags = project.tags.slice(0, 3);
-  const pColor = priorityColor[project.priority];
+  const pConfig = priorityConfig[project.priority];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, ease: 'easeOut', delay: index * 0.05 }}
+      className="card-hover"
       style={{
         background: 'var(--surface)',
         border: '1.5px solid var(--border)',
-        borderLeft: `3px solid ${pColor}`,
+        borderLeft: `3px solid ${pConfig.color}`,
         borderRadius: 'var(--radius)',
         padding: 20,
         display: 'flex',
         flexDirection: 'column',
         gap: 12,
-        transition: 'border-color 0.2s, box-shadow 0.2s',
         position: 'relative',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
         <Link to={`/projects/${project.id}`} style={{ textDecoration: 'none', color: 'var(--text)', flex: 1, minWidth: 0 }}>
@@ -51,16 +49,16 @@ export default function ProjectCard({ project, index = 0, onEdit, onDelete }: Pr
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <div className="card-actions desktop-actions" style={{ display: 'flex', gap: 4 }}>
-            <button onClick={() => onEdit(project)} className="btn-ghost" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)' }}>
+            <button onClick={() => onEdit(project)} className="btn-edit" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)' }}>
               <Edit2 size={14} />
             </button>
             {confirming ? (
               <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-                <button onClick={() => { onDelete(project.id); setConfirming(false); }} className="btn-danger" style={{ fontSize: 11, padding: '4px 8px', borderRadius: 'var(--radius-sm)' }}>Confirm</button>
+                <button onClick={() => { onDelete(project.id); setConfirming(false); }} className="btn-confirm" style={{ fontSize: 11, padding: '4px 8px', borderRadius: 'var(--radius-sm)' }}>Confirm</button>
                 <button onClick={() => setConfirming(false)} className="btn-ghost" style={{ fontSize: 11, padding: '4px 8px', borderRadius: 'var(--radius-sm)' }}>Cancel</button>
               </div>
             ) : (
-              <button onClick={() => setConfirming(true)} className="btn-ghost" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)', color: 'var(--danger)' }}>
+              <button onClick={() => setConfirming(true)} className="btn-delete" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)' }}>
                 <Trash2 size={14} />
               </button>
             )}
@@ -74,8 +72,8 @@ export default function ProjectCard({ project, index = 0, onEdit, onDelete }: Pr
               <>
                 <div style={{ position: 'fixed', inset: 0, zIndex: 10 }} onClick={() => setMenuOpen(false)} />
                 <div style={{ position: 'absolute', top: 32, right: 0, zIndex: 11, background: 'var(--surface-2)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow-md)', padding: 4, display: 'flex', flexDirection: 'column', gap: 2, minWidth: 120 }}>
-                  <button onClick={() => { onEdit(project); setMenuOpen(false); }} className="btn-ghost" style={{ justifyContent: 'flex-start', gap: 8, padding: '8px 12px', fontSize: 12, borderRadius: 'var(--radius-sm)' }}><Edit2 size={13} /> Edit</button>
-                  <button onClick={() => { setConfirming(true); setMenuOpen(false); }} className="btn-ghost" style={{ justifyContent: 'flex-start', gap: 8, padding: '8px 12px', fontSize: 12, borderRadius: 'var(--radius-sm)', color: 'var(--danger)' }}><Trash2 size={13} /> Delete</button>
+                  <button onClick={() => { onEdit(project); setMenuOpen(false); }} className="btn-edit" style={{ justifyContent: 'flex-start', gap: 8, padding: '8px 12px', fontSize: 12, borderRadius: 'var(--radius-sm)' }}><Edit2 size={13} /> Edit</button>
+                  <button onClick={() => { setConfirming(true); setMenuOpen(false); }} className="btn-delete" style={{ justifyContent: 'flex-start', gap: 8, padding: '8px 12px', fontSize: 12, borderRadius: 'var(--radius-sm)' }}><Trash2 size={13} /> Delete</button>
                 </div>
               </>
             )}
@@ -97,16 +95,28 @@ export default function ProjectCard({ project, index = 0, onEdit, onDelete }: Pr
         {project.tags.length > 3 && <span style={{ fontSize: 11, color: 'var(--text-2)', padding: '2px 0' }}>+{project.tags.length - 3}</span>}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
-        <div style={{ display: 'flex', gap: 8 }}>
-          {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--text-2)', display: 'flex', padding: 4 }}><GitBranch size={16} /></a>}
-          {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--text-2)', display: 'flex', padding: 4 }}><ExternalLink size={16} /></a>}
-        </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 5,
+            fontSize: 11,
+            fontWeight: 600,
+            color: 'var(--text-2)',
+          }}
+        >
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: pConfig.color, display: 'inline-block' }} />
+          {pConfig.label}
+        </span>
+        <div style={{ flex: 1 }} />
+        {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--text-2)', display: 'flex', padding: 4 }}><GitBranch size={16} /></a>}
+        {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--text-2)', display: 'flex', padding: 4 }}><ExternalLink size={16} /></a>}
       </div>
 
       {confirming && (
         <div style={{ display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
-          <button onClick={() => { onDelete(project.id); setConfirming(false); }} className="btn-danger" style={{ fontSize: 11, padding: '4px 8px', borderRadius: 'var(--radius-sm)' }}>Confirm</button>
+          <button onClick={() => { onDelete(project.id); setConfirming(false); }} className="btn-confirm" style={{ fontSize: 11, padding: '4px 8px', borderRadius: 'var(--radius-sm)' }}>Confirm</button>
           <button onClick={() => setConfirming(false)} className="btn-ghost" style={{ fontSize: 11, padding: '4px 8px', borderRadius: 'var(--radius-sm)' }}>Cancel</button>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import ProjectCard from '../components/cards/ProjectCard';
@@ -10,6 +10,7 @@ import ProjectsFilter from '../features/projects/ProjectsFilter';
 import { useProjectsStore } from '../store/projectsStore';
 import { useModal } from '../hooks/useModal';
 import { useToast } from '../hooks/useToast';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import ToastContainer from '../components/ui/Toast';
 import type { Project, ProjectStatus } from '../types';
 
@@ -26,6 +27,12 @@ export default function ProjectsPage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<ProjectStatus | 'all'>('all');
   const [editing, setEditing] = useState<Project | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useKeyboardShortcuts({
+    onNewProject: () => { setEditing(null); modal.open(); },
+    onSearch: () => searchInputRef.current?.focus(),
+  });
 
   const filtered = projects
     .filter((p) => (filter === 'all' ? true : p.status === filter))
@@ -49,6 +56,8 @@ export default function ProjectsPage() {
     showToast('Project deleted', 'info');
   };
 
+  const activeCount = projects.filter((p) => p.status === 'active').length;
+
   return (
     <motion.div
       variants={pageVariants}
@@ -58,8 +67,8 @@ export default function ProjectsPage() {
       transition={{ duration: 0.18, ease: 'easeOut' }}
       style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 20 }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <h2 style={{ fontSize: 20 }}>Projects</h2>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 0, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
+        <p style={{ fontSize: 13, color: 'var(--text-2)' }}>{projects.length} projects · {activeCount} active</p>
         <button onClick={openCreate} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
           <Plus size={16} />
           Add Project
@@ -67,7 +76,7 @@ export default function ProjectsPage() {
       </div>
 
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-        <SearchBar value={search} onChange={setSearch} />
+        <SearchBar ref={searchInputRef} value={search} onChange={setSearch} />
         <ProjectsFilter active={filter} onChange={setFilter} />
       </div>
 

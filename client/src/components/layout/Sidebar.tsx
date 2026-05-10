@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, FolderKanban, BookOpen, Settings, Sun, Moon } from 'lucide-react';
 import { useSettingsStore } from '../../store/settingsStore';
 import { ROUTES } from '../../constants';
@@ -13,6 +13,7 @@ const links = [
 
 export default function Sidebar() {
   const { settings, saveSettings } = useSettingsStore();
+  const navigate = useNavigate();
 
   const toggleTheme = () => {
     saveSettings({
@@ -26,42 +27,44 @@ export default function Sidebar() {
       className="sidebar"
       style={{
         position: 'fixed',
-        left: 0,
-        top: 0,
-        bottom: 0,
+        left: 0, top: 0, bottom: 0,
         width: 'var(--sidebar-width)',
-        background: 'linear-gradient(180deg, rgba(19, 23, 32, 0.85) 0%, rgba(13, 15, 20, 0.9) 100%)',
+        background: 'linear-gradient(180deg, rgba(19,23,32,0.85) 0%, rgba(13,15,20,0.9) 100%)',
         borderRight: '1.5px solid var(--border)',
         display: 'flex',
         flexDirection: 'column',
         zIndex: 99,
       }}
     >
+      {/* Header */}
       <div
         style={{
           padding: '24px 20px 20px',
           borderBottom: '1.5px solid var(--border)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
         }}
       >
-        <AppLogo size={28} />
-        <span
-          style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: 20,
-            fontWeight: 800,
-            background: 'linear-gradient(135deg, var(--accent), var(--purple))',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            letterSpacing: -0.5,
-          }}
+        <div
+          onClick={() => navigate('/')}
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
         >
-          DevOS
-        </span>
+          <AppLogo size={28} />
+          <span
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 20,
+              fontWeight: 800,
+              background: 'linear-gradient(135deg, var(--accent), var(--purple))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              letterSpacing: -0.5,
+            }}
+          >
+            DevOS
+          </span>
+        </div>
       </div>
 
+      {/* Nav */}
       <nav style={{ flex: 1, padding: '12px 10px', display: 'flex', flexDirection: 'column', gap: 2 }}>
         {links.map((link) => (
           <NavLink
@@ -83,21 +86,25 @@ export default function Sidebar() {
               transition: 'all 0.2s',
             })}
           >
-            <link.icon size={17} style={{ transition: 'box-shadow 0.2s' }} />
+            <link.icon size={17} />
             {link.label}
           </NavLink>
         ))}
       </nav>
 
-      <div style={{ padding: '4px 14px 0', fontSize: 10, color: 'var(--text-2)', fontFamily: 'var(--font-mono)' }}>
-        <span>[N] New Project</span>
-        <span style={{ marginLeft: 12 }}>[/] Search</span>
+      {/* Shortcuts */}
+      <div style={{ padding: '8px 14px', fontSize: 10, color: 'var(--text-2)', fontFamily: 'var(--font-mono)', lineHeight: 1.8 }}>
+        <div><kbd>N</kbd> New project</div>
+        <div><kbd>/</kbd> Search</div>
+        <div><kbd>G</kbd> then <kbd>D</kbd>/<kbd>P</kbd>/<kbd>L</kbd>/<kbd>S</kbd> Navigate</div>
       </div>
 
+      {/* Theme toggle */}
       <div style={{ padding: '12px 14px 16px', borderTop: '1.5px solid var(--border)', marginTop: 4 }}>
-        <button
-          onClick={toggleTheme}
-          style={{
+          <button
+            onClick={toggleTheme}
+            aria-label={settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            style={{
             display: 'flex',
             alignItems: 'center',
             gap: 10,

@@ -2,10 +2,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, XCircle, Info, X } from 'lucide-react';
 import type { Toast as ToastType } from '../../types';
 
-const config: Record<string, { icon: typeof CheckCircle; border: string }> = {
-  success: { icon: CheckCircle, border: 'var(--success)' },
-  error: { icon: XCircle, border: 'var(--danger)' },
-  info: { icon: Info, border: 'var(--accent)' },
+const config: Record<string, { icon: typeof CheckCircle; border: string; duration: number }> = {
+  success: { icon: CheckCircle, border: 'var(--success)', duration: 2500 },
+  error: { icon: XCircle, border: 'var(--danger)', duration: 5000 },
+  info: { icon: Info, border: 'var(--accent)', duration: 2500 },
 };
 
 interface Props {
@@ -51,6 +51,8 @@ export default function ToastContainer({ toasts, onRemove }: Props) {
                 gap: 10,
                 color: 'var(--text)',
                 fontSize: 13,
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
               <Icon size={16} style={{ color: c.border, flexShrink: 0 }} />
@@ -62,6 +64,10 @@ export default function ToastContainer({ toasts, onRemove }: Props) {
               >
                 <X size={14} />
               </button>
+              <div
+                className="toast-drain"
+                style={{ animationDuration: `${c.duration}ms` }}
+              />
             </motion.div>
           );
         })}

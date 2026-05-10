@@ -21,7 +21,7 @@ export const LEARNING_STATUSES: { value: LearningStatus; label: string }[] = [
 ];
 
 export const ROUTES = {
-  DASHBOARD: '/',
+  DASHBOARD: '/dashboard',
   PROJECTS: '/projects',
   PROJECT_DETAIL: '/projects/:id',
   LEARNING: '/learning',

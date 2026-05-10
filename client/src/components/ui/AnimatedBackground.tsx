@@ -22,7 +22,8 @@ export default function AnimatedBackground() {
     let mouseX = -9999;
     let mouseY = -9999;
 
-    const count = window.innerWidth < 768 ? 30 : 60;
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 20 : 60;
 
     function resize() {
       canvas!.width = window.innerWidth;

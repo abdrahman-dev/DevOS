@@ -79,6 +79,8 @@ export default function Modal({ isOpen, onClose, title, children }: Props) {
               <button
                 onClick={onClose}
                 className="btn-ghost"
+                aria-label="Close modal"
+                autoFocus
                 style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)' }}
               >
                 <X size={18} />

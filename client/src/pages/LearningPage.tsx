@@ -46,6 +46,8 @@ export default function LearningPage() {
     showToast('Learning topic deleted', 'info');
   };
 
+  const activeCount = items.filter((l) => l.status === 'active').length;
+
   return (
     <motion.div
       variants={pageVariants}
@@ -55,8 +57,8 @@ export default function LearningPage() {
       transition={{ duration: 0.18, ease: 'easeOut' }}
       style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 20 }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-        <h2 style={{ fontSize: 20 }}>Learning</h2>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 0, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
+        <p style={{ fontSize: 13, color: 'var(--text-2)' }}>{items.length} topics · {activeCount} in progress</p>
         <button onClick={openCreate} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
           <Plus size={16} />
           Add Topic
@@ -100,6 +102,7 @@ export default function LearningPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2, ease: 'easeOut', delay: i * 0.03 }}
+              className="card-hover"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -137,10 +140,10 @@ export default function LearningPage() {
               <StatusBadge status={item.status} />
 
               <div style={{ display: 'flex', gap: 4 }}>
-                <button onClick={() => openEdit(item)} className="btn-ghost" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)' }}>
+                <button onClick={() => openEdit(item)} className="btn-edit" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)' }}>
                   <Edit2 size={14} />
                 </button>
-                <button onClick={() => handleDelete(item.id)} className="btn-ghost" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)', color: 'var(--danger)' }}>
+                <button onClick={() => handleDelete(item.id)} className="btn-delete" style={{ padding: 6, lineHeight: 0, borderRadius: 'var(--radius-sm)' }}>
                   <Trash2 size={14} />
                 </button>
               </div>

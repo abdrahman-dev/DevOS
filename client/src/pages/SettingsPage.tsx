@@ -510,7 +510,9 @@ export default function SettingsPage() {
       transition={{ duration: 0.18, ease: 'easeOut' }}
       style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 28, maxWidth: 640 }}
     >
-      <h2 style={{ fontSize: 20 }}>Settings</h2>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 0, paddingBottom: 20, borderBottom: '1px solid var(--border)' }}>
+        <p style={{ fontSize: 13, color: 'var(--text-2)' }}>Local only — nothing leaves your device</p>
+      </div>
 
       <div style={{ display: 'flex', gap: 4, background: 'var(--surface-2)', borderRadius: 'var(--radius-sm)', padding: 4 }}>
         {tabs.map((tab) => (
@@ -1008,11 +1010,11 @@ export default function SettingsPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                 <AlertTriangle size={18} color="var(--danger)" />
                 <span style={{ fontSize: 13 }}>Are you sure?</span>
-                <button onClick={handleClearAll} className="btn-danger" style={{ fontSize: 12, padding: '6px 14px' }}>Confirm Clear</button>
+                <button onClick={handleClearAll} className="btn-confirm" style={{ fontSize: 12, padding: '6px 14px' }}>Confirm Clear</button>
                 <button onClick={() => setConfirmClear(false)} className="btn-ghost" style={{ fontSize: 12, padding: '6px 14px' }}>Cancel</button>
               </div>
             ) : (
-              <button onClick={() => setConfirmClear(true)} className="btn-danger">Clear All Data</button>
+              <button onClick={() => setConfirmClear(true)} className="btn-delete">Clear All Data</button>
             )}
           </section>
         </div>

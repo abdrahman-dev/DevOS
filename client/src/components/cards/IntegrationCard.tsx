@@ -13,6 +13,7 @@ interface Props {
 export default function IntegrationCard({ name, description, icon, connected, preview, onConfigure, onDisconnect }: Props) {
   return (
     <div
+      className="card-hover"
       style={{
         background: 'var(--surface)',
         border: '1.5px solid var(--border)',
@@ -21,7 +22,6 @@ export default function IntegrationCard({ name, description, icon, connected, pr
         display: 'flex',
         flexDirection: 'column',
         gap: 14,
-        transition: 'border-color 0.2s, box-shadow 0.2s',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -77,11 +77,11 @@ export default function IntegrationCard({ name, description, icon, connected, pr
           {connected ? 'Connected' : 'Not Connected'}
         </span>
         <div style={{ display: 'flex', gap: 6 }}>
-          <button onClick={onConfigure} className="btn-ghost" style={{ fontSize: 11, padding: '5px 12px' }}>
+          <button onClick={onConfigure} className="btn-edit" style={{ fontSize: 11, padding: '5px 12px' }}>
             Configure
           </button>
           {connected && (
-            <button onClick={onDisconnect} className="btn-ghost" style={{ fontSize: 11, padding: '5px 12px', color: 'var(--danger)' }}>
+            <button onClick={onDisconnect} className="btn-delete" style={{ fontSize: 11, padding: '5px 12px' }}>
               Disconnect
             </button>
           )}

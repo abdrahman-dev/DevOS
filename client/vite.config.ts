@@ -10,16 +10,18 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) return 'react';
+          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) return 'react-core';
           if (id.includes('node_modules/react-router')) return 'router';
           if (id.includes('node_modules/framer-motion')) return 'motion';
-          if (id.includes('node_modules/zustand')) return 'zustand';
-          if (id.includes('node_modules/lucide-react')) return 'ui';
+          if (id.includes('node_modules/zustand')) return 'state';
+          if (id.includes('node_modules/lucide-react')) return 'icons';
+          if (id.includes('node_modules/idb')) return 'db';
+          if (id.includes('node_modules/react-hook-form') || id.includes('node_modules/zod')) return 'forms';
         },
       },
     },
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'zustand', 'idb'],
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'zustand', 'idb', 'react-hook-form', 'zod'],
   },
 });

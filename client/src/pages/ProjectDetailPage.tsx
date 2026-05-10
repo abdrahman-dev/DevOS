@@ -66,12 +66,16 @@ export default function ProjectDetailPage() {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
         <div>
-          <h2 style={{ fontSize: 22 }}>{project.name}</h2>
-          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+          <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: -0.5, marginBottom: 4 }}>{project.name}</h2>
+          <div style={{ display: 'flex', gap: 8 }}>
             <StatusBadge status={project.status} />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11, fontWeight: 600, color: 'var(--text-2)' }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: project.priority === 'high' ? 'var(--color-delete)' : project.priority === 'medium' ? 'var(--warning)' : 'var(--color-neutral)', display: 'inline-block' }} />
+              {project.priority}
+            </span>
           </div>
         </div>
-        <button onClick={modal.open} className="btn-ghost" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <button onClick={modal.open} className="btn-edit" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px' }}>
           <Edit2 size={14} />
           Edit
         </button>

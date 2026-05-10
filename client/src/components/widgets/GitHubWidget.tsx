@@ -13,7 +13,7 @@ export default function GitHubWidget({ data, collapsed, onToggleCollapse }: Prop
   return (
     <div style={{ background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius)', padding: 20, display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img src={data.avatar} alt="" style={{ width: 32, height: 32, borderRadius: '50%', border: '1.5px solid var(--border)' }} />
+        <img src={data.avatar} alt="" loading="lazy" style={{ width: 32, height: 32, borderRadius: '50%', border: '1.5px solid var(--border)' }} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 14, fontWeight: 700 }}>{data.name}</div>
           <div style={{ display: 'flex', gap: 10, fontSize: 11, color: 'var(--text-2)', marginTop: 2 }}>
@@ -22,7 +22,7 @@ export default function GitHubWidget({ data, collapsed, onToggleCollapse }: Prop
           </div>
         </div>
         {onToggleCollapse && (
-          <button onClick={onToggleCollapse} style={{ background: 'none', border: 'none', padding: 4, color: 'var(--text-2)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          <button onClick={onToggleCollapse} aria-label={collapsed ? 'Expand GitHub widget' : 'Collapse GitHub widget'} style={{ background: 'none', border: 'none', padding: 4, color: 'var(--text-2)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
             <ChevronDown size={14} style={{ transform: collapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
           </button>
         )}

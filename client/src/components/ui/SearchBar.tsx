@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { Search } from 'lucide-react';
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
   placeholder?: string;
 }
 
-export default function SearchBar({ value, onChange, placeholder = 'Search…' }: Props) {
+const SearchBar = forwardRef<HTMLInputElement, Props>(({ value, onChange, placeholder = 'Search…' }: Props, ref) => {
   return (
     <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
       <Search
@@ -19,6 +20,7 @@ export default function SearchBar({ value, onChange, placeholder = 'Search…' }
         }}
       />
       <input
+        ref={ref}
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -27,4 +29,7 @@ export default function SearchBar({ value, onChange, placeholder = 'Search…' }
       />
     </div>
   );
-}
+});
+
+SearchBar.displayName = 'SearchBar';
+export default SearchBar;

@@ -35,6 +35,14 @@ DevOS is a local-first personal dashboard for developers. No backend, no account
 - **Framer Motion animations** — Subtle page transitions and AnimatePresence on collapsible widget bodies
 - **Fully responsive** — Bottom nav on mobile, adaptive grid throughout
 - **Import / Export JSON** — Full data backup with all settings and integration configs
+- **Landing page** — Full-page entry with hero, animated features grid, integrations strip, and footer
+- **Motivational quotes** — Daily quote popup (bottom-left) with mix of English/Arabic, auto-dismisses after 6s
+- **Keyboard shortcuts** — `N` new project, `/` search, `G` then `D/P/L/S` navigate pages
+- **Semantic color system** — Consistent button styles (`.btn-edit`, `.btn-delete`, `.btn-confirm`) across all actions
+- **Loading bar** — Subtle top progress bar during integration data fetch
+- **Widget aria-labels** — All interactive elements accessible via screen readers
+- **Mobile optimizations** — 20 background particles (down from 60), bottom-sheet modals, 44px tap targets
+- **Health check script** — `npm run health` runs 8 checks: types, deps, dead imports, env vars, build size, circular deps, console.logs, unused imports
 - **Docker support** — One-command deploy via Docker Compose with Nginx
 
 ---
@@ -65,11 +73,13 @@ DevOS/
 ├── client/
 │   ├── public/
 │   │   └── favicon.svg            # Clean monogram SVG ("D" + "O")
+│   ├── scripts/
+│   │   └── health-check.ts       # 8-check health audit (run: npm run health)
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── cards/             # ProjectCard, StatCard, IntegrationCard
 │   │   │   ├── layout/           # Sidebar, Topbar, BottomNav
-│   │   │   ├── ui/              # Badge, Modal, Toast, EmptyState, SearchBar, AppLogo
+│   │   │   ├── ui/              # Badge, Modal, Toast, EmptyState, SearchBar, AppLogo, MotivationalPop
 │   │   │   └── widgets/         # GitHub, WakaTime, Vercel, Railway, Render, Supabase, DEV.to, Ollama, OpenRouter
 │   │   ├── constants/
 │   │   │   └── index.ts          # Routes, status maps, defaults
@@ -79,9 +89,9 @@ DevOS/
 │   │   │   ├── dashboard/        # QuickStats
 │   │   │   ├── learning/         # LearningForm
 │   │   │   └── projects/         # ProjectForm, ProjectsFilter
-│   │   ├── hooks/                # useToast, useModal, useWidgetCollapse, useWidgetVisibility, useIntegrationData
-│   │   ├── pages/                # Dashboard, Projects, ProjectDetail, Learning, Settings
-│   │   ├── services/             # GitHub, OpenRouter, WakaTime, Vercel, Railway, Render, Supabase, DEV.to, Ollama
+│   │   ├── hooks/                # useToast, useModal, useWidgetCollapse, useWidgetVisibility, useIntegrationData, useKeyboardShortcuts
+│   │   ├── pages/                # Landing, Dashboard, Projects, ProjectDetail, Learning, Settings
+│   │   ├── services/             # GitHub, OpenRouter, WakaTime, Vercel, Railway, Render, Supabase, DEV.to, Ollama, auth
 │   │   ├── store/                # Zustand stores (projects, learning, settings)
 │   │   ├── styles/
 │   │   │   └── global.css        # All CSS variables, skeletons, scroll rows, responsive breakpoints
@@ -147,9 +157,13 @@ Opens at `http://localhost:3000` behind an Nginx reverse proxy.
 
 ## 📖 Usage
 
-### Dashboard (`/`)
+### Landing (`/`)
 
-Your command center. The header shows the current date, a Focus Mode toggle, and a Customize dropdown to toggle widget visibility. QuickStats display key metrics. The "Today at a Glance" strip gives a live summary of your connected integrations. Below, a horizontal scrollable row shows each connected widget with skeleton placeholders during loading. Each widget can be collapsed via its chevron toggle. At the bottom, the Quick Note card provides an auto-saved scratchpad.
+Entry page with hero section, animated features grid, integrations strip, and footer. Choose **Continue as Guest** to enter the dashboard. Sign In button is a placeholder for future auth.
+
+### Dashboard (`/dashboard`)
+
+Your command center. The header shows the current date, a Focus Mode toggle, and a Customize dropdown to toggle widget visibility. A daily motivational quote pops up 2s after load (bottom-left). QuickStats display key metrics. The "Today at a Glance" strip gives a live summary of your connected integrations. Below, a horizontal scrollable row shows each connected widget with skeleton placeholders during loading. Each widget can be collapsed via its chevron toggle. At the bottom, the Quick Note card provides an auto-saved scratchpad.
 
 **Focus Mode** hides the widget row and Quick Note, showing only your Currently Learning topics and Recent Projects — keeping you on track.
 
@@ -208,8 +222,41 @@ The app is served on port 3000 via Nginx. The Dockerfile uses a multi-stage buil
 
 ---
 
+## ⌨️ Keyboard Shortcuts
+
+Available on any page (not while typing in inputs):
+
+| Shortcut | Action |
+|----------|--------|
+| `N` | New project |
+| `/` | Focus search bar |
+| `G` then `D` | Go to Dashboard |
+| `G` then `P` | Go to Projects |
+| `G` then `L` | Go to Learning |
+| `G` then `S` | Go to Settings |
+
+---
+
+## 🩺 Health Check
+
+Run a full project audit:
+
+```bash
+cd client
+npm run health
+```
+
+Checks: TypeScript errors, dependency conflicts, dead imports, missing env variables, build size (warns if chunk > 500KB), circular dependencies, `console.log` leftovers, and unused imports. Outputs a color-coded score out of 100.
+
+---
+
 ## 🗺 Roadmap
 
+- [x] Landing page with hero and features grid
+- [x] Keyboard shortcuts (N, /, G+D/P/L/S)
+- [x] Health check script (npm run health)
+- [x] Semantic color system (btn-edit, btn-delete, btn-confirm)
+- [x] Accessibility pass (aria-labels, focus trap, lazy loading)
 - [ ] Backend API (Node.js + Express)
 - [ ] Authentication and multi-device sync
 - [ ] Mobile app (React Native)

@@ -10,7 +10,7 @@ import { useProjectsStore } from './store/projectsStore';
 import { useLearningStore } from './store/learningStore';
 
 const pageTitles: Record<string, string> = {
-  '/': 'Dashboard',
+  '/dashboard': 'Dashboard',
   '/projects': 'Projects',
   '/learning': 'Learning',
   '/settings': 'Settings',
@@ -18,6 +18,7 @@ const pageTitles: Record<string, string> = {
 
 function AppLayout() {
   const location = useLocation();
+  const isLanding = location.pathname === '/';
   const loadSettings = useSettingsStore((s) => s.loadSettings);
   const loadProjects = useProjectsStore((s) => s.loadProjects);
   const loadLearning = useLearningStore((s) => s.loadItems);
@@ -34,6 +35,15 @@ function AppLayout() {
     }
     return pageTitles[location.pathname] ?? 'DevOS';
   })();
+
+  if (isLanding) {
+    return (
+      <>
+        <AnimatedBackground />
+        <AppRoutes />
+      </>
+    );
+  }
 
   return (
     <>

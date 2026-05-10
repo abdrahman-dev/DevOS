@@ -18,7 +18,7 @@ export default function VercelWidget({ data, collapsed, onToggleCollapse }: Prop
         </div>
         <span style={{ fontSize: 14, fontWeight: 700, flex: 1 }}>Vercel</span>
         {onToggleCollapse && (
-          <button onClick={onToggleCollapse} style={{ background: 'none', border: 'none', padding: 4, color: 'var(--text-2)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          <button onClick={onToggleCollapse} aria-label={collapsed ? 'Expand Vercel widget' : 'Collapse Vercel widget'} style={{ background: 'none', border: 'none', padding: 4, color: 'var(--text-2)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
             <ChevronDown size={14} style={{ transform: collapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
           </button>
         )}
