@@ -1,32 +1,46 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
-  ArrowRight, Lock, Copy, GitBranch,
-  FolderOpen, BookOpen, Plug, LayoutDashboard, Shield, Terminal,
+  ArrowRight, Lock, GitBranch,
+  FolderOpen, BookOpen, Plug, LayoutDashboard, Shield, Users,
 } from 'lucide-react';
-import { useState } from 'react';
 import AppLogo from '../components/ui/AppLogo';
 
 const features = [
-  { icon: <FolderOpen size={20} />, title: 'Project Tracker', desc: 'Track every project with status, priority, GitHub links, and notes.' },
-  { icon: <BookOpen size={20} />, title: 'Learning Tracker', desc: "Monitor what you're studying with progress bars and sources." },
-  { icon: <Plug size={20} />, title: '9 Integrations', desc: 'GitHub, WakaTime, Vercel, Railway, Render, Supabase, DEV.to, OpenRouter, Ollama.' },
-  { icon: <LayoutDashboard size={20} />, title: 'Live Dashboard', desc: 'Real-time widgets from all your connected services in one view.' },
-  { icon: <Shield size={20} />, title: 'Local First', desc: 'All data in IndexedDB. API keys never leave your device.' },
-  { icon: <Terminal size={20} />, title: 'CLI Ready', desc: 'npx devos — spin up your dashboard from any terminal.' },
+  {
+    icon: <FolderOpen size={20} />,
+    title: 'Project Tracker',
+    desc: "Every idea you had, every project you started finally in one place. No more forgotten side projects.",
+  },
+  {
+    icon: <BookOpen size={20} />,
+    title: 'Learning Tracker',
+    desc: "You're always learning something. Keep track of it, see how far you've come, and never lose your progress.",
+  },
+  {
+    icon: <Plug size={20} />,
+    title: 'Live Dashboard',
+    desc: "Your GitHub activity, your repos, your stats all visible the moment you open your dashboard.",
+  },
+  {
+    icon: <LayoutDashboard size={20} />,
+    title: 'Local First',
+    desc: "Your data belongs to you. Everything lives on your device. No servers reading your notes.",
+  },
+  {
+    icon: <Shield size={20} />,
+    title: 'Secure Auth',
+    desc: "When you're ready to sync, your account is protected with JWT, httpOnly cookies, and email verification.",
+  },
+  {
+    icon: <Users size={20} />,
+    title: 'Developer Profiles',
+    desc: "Share what you're building and learning with the world — on your terms, only what you choose.",
+  },
 ];
-
-const integrations = ['GitHub', 'WakaTime', 'Vercel', 'Railway', 'Render', 'Supabase', 'DEV.to', 'OpenRouter', 'Ollama'];
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText('npx devos');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
 
   return (
     <div className="landing">
@@ -50,7 +64,7 @@ export default function LandingPage() {
           transition={{ duration: 0.4 }}
         >
           <span className="landing-label-dot" />
-          Open Source · Local First · No Backend
+          Open Source · Built for Developers · Always Yours
         </motion.div>
 
         <motion.h1
@@ -69,9 +83,9 @@ export default function LandingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Track projects, monitor integrations, and stay in flow.<br />
-          GitHub, WakaTime, Vercel, OpenRouter — all in one place.<br />
-          Everything stored locally. Zero backend. Zero accounts required.
+          The place where your ideas don't get lost.<br />
+          Track what you build, remember what you learn,<br />
+          and never lose sight of where you're going.
         </motion.p>
 
         <motion.div
@@ -81,29 +95,23 @@ export default function LandingPage() {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <button className="landing-btn-primary" onClick={() => navigate('/dashboard')}>
-            Continue as Guest
+            Start for Free
             <ArrowRight size={16} />
           </button>
-          <button className="landing-btn-secondary" onClick={() => navigate('/dashboard')}>
+          <button className="landing-btn-secondary" onClick={() => navigate('/login')}>
             <Lock size={14} />
             Sign In
-            <span className="landing-soon-chip">Soon</span>
           </button>
         </motion.div>
 
-        <motion.div
-          className="landing-install-box"
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ delay: 0.5 }}
+          style={{ fontSize: 11, color: 'var(--text-2)', marginTop: 12, textAlign: 'center' }}
         >
-          <span className="landing-install-prefix">$</span>
-          <span className="landing-install-cmd">npx devos</span>
-          <button className="landing-install-copy" onClick={handleCopy}>
-            <Copy size={13} />
-          </button>
-          {copied && <span className="landing-copied">Copied!</span>}
-        </motion.div>
+          No account needed to get started. Your data stays on your device.
+        </motion.p>
       </section>
 
       <section className="landing-features">
@@ -134,20 +142,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="landing-integrations">
-        <p className="landing-integrations-label">Connect your favorite tools</p>
-        <div className="landing-integrations-row">
-          {integrations.map(name => (
-            <div key={name} className="landing-integration-chip">{name}</div>
-          ))}
-        </div>
-      </section>
-
       <footer className="landing-footer">
         <div className="landing-footer-left">
           <AppLogo size={20} />
           <span>DevOS</span>
-          <span style={{ color: 'var(--text-2)', fontSize: 12 }}>MIT License</span>
+          <span style={{ color: 'var(--text-2)', fontSize: 12 }}>Free & Open Source · MIT License</span>
         </div>
         <div className="landing-footer-right">
           <a href="https://github.com/abdrahman-dev/DevOS" target="_blank" rel="noreferrer">GitHub</a>

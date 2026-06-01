@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, FolderKanban, BookOpen, Settings, Sun, Moon } from 'lucide-react';
 import { useSettingsStore } from '../../store/settingsStore';
+import { useAuthStore } from '../../store/authStore';
 import { ROUTES } from '../../constants';
 import AppLogo from '../ui/AppLogo';
+import UserPopover from '../ui/UserPopover';
 
 const links = [
   { to: ROUTES.DASHBOARD, label: 'Dashboard', icon: LayoutDashboard },
@@ -13,7 +16,9 @@ const links = [
 
 export default function Sidebar() {
   const { settings, saveSettings } = useSettingsStore();
+  const user = useAuthStore((s) => s.user);
   const navigate = useNavigate();
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const toggleTheme = () => {
     saveSettings({
@@ -92,19 +97,49 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Shortcuts */}
-      <div style={{ padding: '8px 14px', fontSize: 10, color: 'var(--text-2)', fontFamily: 'var(--font-mono)', lineHeight: 1.8 }}>
-        <div><kbd>N</kbd> New project</div>
-        <div><kbd>/</kbd> Search</div>
-        <div><kbd>G</kbd> then <kbd>D</kbd>/<kbd>P</kbd>/<kbd>L</kbd>/<kbd>S</kbd> Navigate</div>
-      </div>
+      {/* User card with popover */}
+      {user && (
+        <div style={{ position: 'relative' }}>
+          <div
+            onClick={() => setPopoverOpen(true)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '10px 14px',
+              cursor: 'pointer',
+              borderTop: '1.5px solid var(--border)',
+            }}
+          >
+            <div style={{
+              width: 28, height: 28, borderRadius: '50%',
+              background: 'var(--accent-subtle)', color: 'var(--accent)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 12, fontWeight: 700, flexShrink: 0,
+              border: '1.5px solid var(--border)', overflow: 'hidden',
+            }}>
+              {user.avatar
+                ? <img src={user.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                : user.name?.[0]?.toUpperCase() ?? '?'
+              }
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {user.name}
+              </div>
+              <div style={{ fontSize: 10, color: 'var(--text-2)', fontFamily: 'var(--font-mono)' }}>
+                {user.username ? `@${user.username}` : user.email}
+              </div>
+            </div>
+          </div>
+          {popoverOpen && <UserPopover onClose={() => setPopoverOpen(false)} direction="up" />}
+        </div>
+      )}
 
       {/* Theme toggle */}
-      <div style={{ padding: '12px 14px 16px', borderTop: '1.5px solid var(--border)', marginTop: 4 }}>
-          <button
-            onClick={toggleTheme}
-            aria-label={settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            style={{
+      <div style={{ padding: '12px 14px 16px', borderTop: '1.5px solid var(--border)' }}>
+        <button
+          onClick={toggleTheme}
+          aria-label={settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{
             display: 'flex',
             alignItems: 'center',
             gap: 10,

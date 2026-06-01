@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus } from 'lucide-react';
 import ProjectCard from '../components/cards/ProjectCard';
@@ -10,7 +10,6 @@ import ProjectsFilter from '../features/projects/ProjectsFilter';
 import { useProjectsStore } from '../store/projectsStore';
 import { useModal } from '../hooks/useModal';
 import { useToast } from '../hooks/useToast';
-import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import ToastContainer from '../components/ui/Toast';
 import type { Project, ProjectStatus } from '../types';
 
@@ -27,12 +26,6 @@ export default function ProjectsPage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<ProjectStatus | 'all'>('all');
   const [editing, setEditing] = useState<Project | null>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
-  useKeyboardShortcuts({
-    onNewProject: () => { setEditing(null); modal.open(); },
-    onSearch: () => searchInputRef.current?.focus(),
-  });
 
   const filtered = projects
     .filter((p) => (filter === 'all' ? true : p.status === filter))
@@ -76,7 +69,7 @@ export default function ProjectsPage() {
       </div>
 
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-        <SearchBar ref={searchInputRef} value={search} onChange={setSearch} />
+        <SearchBar value={search} onChange={setSearch} />
         <ProjectsFilter active={filter} onChange={setFilter} />
       </div>
 

@@ -1,19 +1,19 @@
 version: '3.9'
 
 services:
-  devos:
+  devos-client:
     build:
       context: .
       dockerfile: Dockerfile
       target: production
-    container_name: devos
+    container_name: devos-client
     ports:
       - '3000:80'
     restart: unless-stopped
     environment:
       - NODE_ENV=production
     labels:
-      - 'com.devos.description=Personal developer dashboard'
+      - 'com.devos.description=DevOS frontend'
       - 'com.devos.version=1.0.0'
 
 networks:

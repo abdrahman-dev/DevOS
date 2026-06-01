@@ -2,8 +2,9 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY client/package*.json ./
-RUN npm ci
-COPY client/ ./
+COPY client/.npmrc ./
+RUN npm install --legacy-peer-deps
+COPY client/ .
 RUN npm run build
 
 # Stage 2: Serve

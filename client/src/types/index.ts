@@ -3,6 +3,26 @@ export type ProjectPriority = 'low' | 'medium' | 'high';
 export type LearningStatus = 'active' | 'paused' | 'completed';
 export type Theme = 'dark' | 'light';
 export type ToastType = 'success' | 'error' | 'info';
+export type AuthStep = 'login' | 'register' | 'verify-email' | 'forgot-password' | 'reset-password';
+
+export interface AuthUser {
+  id: string;
+  name: string;
+  email: string;
+  username?: string;
+  bio?: string;
+  avatar?: string;
+  location?: string;
+  website?: string;
+  socials?: {
+    github?: string;
+    linkedin?: string;
+    twitter?: string;
+    devto?: string;
+  };
+  isProfilePublic: boolean;
+  isVerified: boolean;
+}
 
 export interface Project {
   id: string;
@@ -31,29 +51,7 @@ export interface LearningItem {
 
 export interface Settings {
   theme: Theme;
-  openRouterApiKey?: string;
-  openRouterModel?: string;
   githubUsername?: string;
-  vercelApiToken?: string;
-  vercelTeamId?: string;
-  ollamaBaseUrl?: string;
-  wakatimeApiKey?: string;
-  railwayToken?: string;
-  renderApiKey?: string;
-  supabaseToken?: string;
-  devtoApiKey?: string;
-}
-
-export interface IntegrationStatus {
-  github: boolean;
-  openrouter: boolean;
-  vercel: boolean;
-  ollama: boolean;
-  wakatime: boolean;
-  railway: boolean;
-  render: boolean;
-  supabase: boolean;
-  devto: boolean;
 }
 
 export interface Toast {
@@ -63,67 +61,23 @@ export interface Toast {
 }
 
 export interface GitHubWidgetData {
-  avatar: string;
-  name: string;
-  publicRepos: number;
-  followers: number;
-  topRepos: { name: string; stars: number; language: string }[];
-}
-
-export interface OpenRouterWidgetData {
-  label: string;
-  usage: number;
-  limit: number;
-  isFreeTier: boolean;
-}
-
-export interface VercelWidgetData {
-  name: string;
-  projects: number;
-  deployments: number;
-}
-
-export interface OllamaWidgetData {
-  version: string;
-  models: number;
-}
-
-export interface WakaTimeWidgetData {
-  username: string;
-  totalCodingTime: string;
-  topLanguage: string;
-  topLanguagePercent: number;
-}
-
-export interface RailwayWidgetData {
-  name: string;
-  projects: number;
-}
-
-export interface RenderWidgetData {
-  name: string;
-  services: number;
-}
-
-export interface SupabaseWidgetData {
-  orgName: string;
-  projects: number;
-}
-
-export interface DevToWidgetData {
-  username: string;
-  articles: number;
-  totalReactions: number;
+  user: {
+    avatar_url: string;
+    login: string;
+    name: string;
+    public_repos: number;
+    followers: number;
+  };
+  repos: {
+    id: number;
+    name: string;
+    language: string | null;
+    stargazers_count: number;
+    updated_at: string;
+    html_url: string;
+  }[];
 }
 
 export interface WidgetDataMap {
   github?: GitHubWidgetData;
-  openrouter?: OpenRouterWidgetData;
-  vercel?: VercelWidgetData;
-  ollama?: OllamaWidgetData;
-  wakatime?: WakaTimeWidgetData;
-  railway?: RailwayWidgetData;
-  render?: RenderWidgetData;
-  supabase?: SupabaseWidgetData;
-  devto?: DevToWidgetData;
 }
